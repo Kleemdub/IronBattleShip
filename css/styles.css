@@ -1,0 +1,73 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+body {
+    background: #fff;
+}
+
+.container {
+    background-image: url(../images/background.png);
+    width:1000px;
+    height:600px;
+    margin:30px auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 20px #555;
+    border:1px solid #fff;
+}
+
+.bg1 {
+    width:1000px;
+    height:600px;
+    position: absolute;
+    top:0;
+    left:0;
+    background-image: url(../images/mountains.png);
+    z-index: 1;
+    background-position-x: 0px;
+    background-position-y:0px;
+}
+
+.bg2 {
+    width:1000px;
+    height:600px;
+    position: absolute;
+    top:0;
+    left:0;
+    background-image: url(../images/rocks.png);
+    z-index: 2;
+    background-position-x: 0px;
+    background-position-y:0px;
+}
+
+.gameSpace {
+    width:1000px;
+    height:600px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 3;
+}
+
+.spaceship {
+    width:150px;
+    height:150px;
+    overflow: hidden;
+    /* background: #f00; */
+    background-image: url(../images/spaceship.png);
+    background-position-x: 0;
+    background-position-y:0px;
+    position: absolute;
+    top:0px;
+    left:0px;
+}
+
+.shot {
+    width:10px;
+    height:4px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+}
