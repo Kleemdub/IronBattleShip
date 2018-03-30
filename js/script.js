@@ -17,25 +17,25 @@ $(document).ready(function(){
 
     var scrollSpeed = 40;
     
-    var scrollInterval = setInterval(function(){
-        if(bg1X > -1000){
-            bg1X -= 1;
-            bg1.css({'background-position-x':bg1X});
-        }
-        else{
-            bg1X = 0;
-            bg1.css({'background-position-x':bg1X});
-        }
-        if(bg2X > -1000){
-            bg2X -= 2;
-            bg2.css({'background-position-x':bg2X});
-        }
-        else{
-            bg2X = 0;
-            bg2.css({'background-position-x':bg2X});
-        }
+    // var scrollInterval = setInterval(function(){
+    //     if(bg1X > -1000){
+    //         bg1X -= 1;
+    //         bg1.css({'background-position-x':bg1X});
+    //     }
+    //     else{
+    //         bg1X = 0;
+    //         bg1.css({'background-position-x':bg1X});
+    //     }
+    //     if(bg2X > -1000){
+    //         bg2X -= 2;
+    //         bg2.css({'background-position-x':bg2X});
+    //     }
+    //     else{
+    //         bg2X = 0;
+    //         bg2.css({'background-position-x':bg2X});
+    //     }
         
-    }, scrollSpeed);
+    // }, scrollSpeed);
 
     //////////////////////////////////////////////////////////////////////////////
     // The Ship /////////////////////////////////////////////////////////////////
@@ -102,6 +102,8 @@ $(document).ready(function(){
     Shots.prototype = Object.create(Ship_obj.prototype);
 
     Shots.prototype.createShot = function(){
+        this.shot.css({'width':this.width});
+        this.shot.css({'height':this.height});
         spaceBg.append(this.html);
         console.log(this);
         console.log("Y: " + myShip.shipPosYcurrent);
@@ -109,9 +111,12 @@ $(document).ready(function(){
         this.shotY = myShip.shipPosYcurrent;
         this.shot.css({'top':this.shotX});
         this.shot.css({'left':this.shotY});
+        console.log(this.width);
+        console.log(this.height);
+        
     };
 
-    var shipShot = new Shots(4, 10);
+    var shipShot = new Shots(4, 100);
 
     // keyCode : up : 38 / down : 40 / left : 37 / right : 39
     // KEYDOWN ///////////////////////////////////////////////////////////////////

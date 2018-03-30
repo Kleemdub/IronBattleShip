@@ -6,9 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Battleship</title>
     <link rel="stylesheet" href="./css/styles.css"/>
-    <!-- chargement de jquery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="./js/script.js"></script>
 </head>
 <body>
     <div class="container">
@@ -17,10 +14,22 @@
 
         <div class="gameSpace">
             <div class="spaceship"></div>
-            <!-- <div class="shot"></div> -->
+
+            <div index="0" class="shot armed"></div>
+            <div index="1" class="shot armed"></div>
+            <div index="2" class="shot armed"></div>
+            <div index="3" class="shot armed"></div>
+            <div index="4" class="shot armed"></div>
+            <div index="5" class="shot armed"></div>
         </div>
 
     </div>
-    <!-- <div class="spaceship"></div> -->
+
+
+    <!-- chargement de jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- <script src="./js/script.js"></script> -->
+    <script src="./js/space.js"></script>
+    <script src="./js/battle.js"></script>
 </body>
 </html>
