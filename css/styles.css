@@ -3,8 +3,22 @@
     padding:0;
 }
 
+@font-face {
+    font-family: 'ds-digitalbold_italic';
+    src: url('../fonts/ds-digit-webfont.eot');
+    src: url('../fonts/ds-digit-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ds-digit-webfont.woff2') format('woff2'),
+         url('../fonts/ds-digit-webfont.woff') format('woff'),
+         url('../fonts/ds-digit-webfont.ttf') format('truetype'),
+         url('../fonts/ds-digit-webfont.svg#ds-digitalbold_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body {
     background: #fff;
+    font-family: 'ds-digitalbold_italic';
 }
 
 .container {
@@ -51,6 +65,120 @@ body {
     z-index: 3;
 }
 
+.explosionsLayer {
+    width:1000px;
+    height:600px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 6;
+}
+
+.infosLayer {
+    width:1000px;
+    height:600px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 7;
+}
+
+.infosBar {
+    position: relative;
+    width:100%;
+    height: 70px;
+    /* background: rgba(255, 255, 255, 0.301); */
+    overflow: auto;
+}
+
+.healthBar {
+    width:200px;
+    height: 13px;
+    background: rgba(255, 255, 255, 0.267);
+    /* background:#fff; */
+    box-shadow:0px 0px 10px #040b2c;
+    margin-left: 50px;
+    margin-top:30px;
+    padding: 3px;
+    float: left;
+}
+
+.healthBar .level {
+    height: 13px;
+    width:100%;
+    /* width:100%;
+    background:rgb(0, 255, 149);
+    background: linear-gradient(rgb(109, 255, 194), rgb(0, 255, 149)); */
+    /* width:75%;
+    background:rgb(255, 244, 83);
+    background: linear-gradient(rgb(255, 249, 168), rgb(255, 244, 83)); */
+    /* width:50%;
+    background:rgb(255, 170, 72);
+    background: linear-gradient(rgb(255, 206, 151), rgb(255, 170, 72)); */
+    /* width:25%;
+    background:rgb(255, 74, 74);
+    background: linear-gradient(rgb(255, 162, 162), rgb(255, 74, 74)); */
+}
+
+.healthBar .level4 {
+    background:rgb(0, 255, 149);
+    background: linear-gradient(rgb(109, 255, 194), rgb(0, 255, 149));
+}
+
+.healthBar .level3 {
+    background:rgb(255, 244, 83);
+    background: linear-gradient(rgb(255, 249, 168), rgb(255, 244, 83));
+}
+
+.healthBar .level2 {
+    background:rgb(255, 170, 72);
+    background: linear-gradient(rgb(255, 206, 151), rgb(255, 170, 72));
+}
+
+.healthBar .level1 {
+    background:rgb(255, 74, 74);
+    background: linear-gradient(rgb(255, 162, 162), rgb(255, 74, 74));
+}
+
+.healthBar .level0 {
+    background:rgba(0, 0, 0, 0.103);
+}
+
+.score {
+    float: right;
+    margin-right:50px;
+    margin-top:25px;
+    /* background: #f00; */
+    /* color:#fff; */
+    color:rgba(255, 255, 255, 0.637);
+    font-size: 30px;
+    text-shadow:2px 2px 7px #040b2c;
+}
+
+.overlay {
+    width:1000px;
+    height:600px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.568);
+    opacity: 0;
+}
+
+.overlay h1 {
+    color:#fff;
+    text-shadow:2px 2px 7px #040b2c;
+    font-size: 120px;
+    text-align: center;
+    display: block;
+    position: absolute;
+    width:1000px;
+    left:0;
+    /* top:240px; */
+    top:600px;
+}
+
 .spaceship {
     width:150px;
     height:150px;
@@ -62,6 +190,7 @@ body {
     position: absolute;
     top:0px;
     left:0px;
+    z-index: 3;
 }
 
 .shot {
@@ -73,5 +202,56 @@ body {
     top:0;
     left:0;
     display: none;
+    z-index: 5;
     box-shadow:0px 0px 10px #fff;
+    /* box-shadow:0px 0px 10px rgb(255, 0, 179); */
+    /* box-shadow:0px 0px 10px rgb(255, 218, 8); */
+    /* box-shadow:0px 0px 10px rgb(98, 255, 247); */
+}
+
+.enemy {
+    position: absolute;
+    width:70px;
+    height: 70px;
+    top:-70px;
+    left:1000px;
+    /* background: #f00; */
+    z-index: 4;
+}
+
+.trooper {
+    position: absolute;
+    width:70px;
+    height: 70px;
+    top:-70px;
+    left:1000px;
+    background: url(../images/trooper-2.png);
+    background-position-x: 0;
+    background-position-y:0;
+    display: none;
+    z-index: 4;
+}
+
+.explosion {
+    width:140px;
+    height: 140px;
+    position: absolute;
+    top:0px;
+    left: 0px;
+    background: url(../images/explosion.png);
+    z-index: 6;
+    background-position-x: 0px;
+    background-position-y:0px;
+}
+
+.sparkle {
+    width:70px;
+    height: 70px;
+    position: absolute;
+    top:0px;
+    left: 0px;
+    background: url(../images/sparkles.png);
+    z-index: 6;
+    background-position-x: 0px;
+    background-position-y:0px;
 }
