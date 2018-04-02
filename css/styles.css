@@ -13,7 +13,18 @@
          url('../fonts/ds-digit-webfont.svg#ds-digitalbold_italic') format('svg');
     font-weight: normal;
     font-style: normal;
+}
 
+@font-face {
+    font-family: 'xideregular';
+    src: url('../fonts/xide-webfont.eot');
+    src: url('../fonts/xide-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/xide-webfont.woff2') format('woff2'),
+         url('../fonts/xide-webfont.woff') format('woff'),
+         url('../fonts/xide-webfont.ttf') format('truetype'),
+         url('../fonts/xide-webfont.svg#xideregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body {
@@ -166,17 +177,79 @@ body {
     opacity: 0;
 }
 
-.overlay h1 {
+.overlay h2 {
     color:#fff;
     text-shadow:2px 2px 7px #040b2c;
-    font-size: 120px;
+    font-size: 80px;
     text-align: center;
     display: block;
     position: absolute;
     width:1000px;
     left:0;
-    /* top:240px; */
+    /* top:260px; */
     top:600px;
+    font-family: 'xideregular';
+}
+
+.startLayer {
+    width:1000px;
+    height:600px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 11;
+    background: #040b2c;
+    /* display: none; */
+}
+
+.startLayer h1 {
+    color:#fff;
+    text-shadow:2px 2px 7px #040b2c;
+    font-size: 80px;
+    text-align: center;
+    display: block;
+    /* position: absolute; */
+    width:1000px;
+    /* left:0; */
+    /* padding-top:260px; */
+    padding-top:200px;
+    padding-bottom: 50px;
+    font-family: 'xideregular';
+    letter-spacing: 5px;
+    text-align: center;
+    display: block;
+}
+
+.startLayer .btnContainer {
+    width:1000px;
+    position: relative;
+}
+
+.startLayer .btnContainer .startBtn {
+    font-family: 'ds-digitalbold_italic';
+    width:150px;
+    height:60px;
+    margin:0 auto;
+    display: block;
+    text-align:center;
+    border:1px solid #fff;
+    border-radius: 5px;
+    color:#fff;
+    cursor: pointer;
+    letter-spacing: 2px;
+    /* font-size: 30px;
+    padding-top:14px; */
+    font-size: 40px;
+    padding-top:10px;
+    box-sizing: border-box;
+}
+
+.startLayer .btnContainer .startBtn:hover {
+    box-shadow:0px 0px 10px #040b2c;
+    background: #fff;
+    color:#040b2c;
+    /* font-size: 40px;
+    padding-top:10px; */
 }
 
 .spaceship {
@@ -190,7 +263,21 @@ body {
     position: absolute;
     top:0px;
     left:0px;
-    z-index: 3;
+    z-index: 4;
+    /* filter: brightness(2) drop-shadow(0px 0px 10px rgb(0, 255, 255)); */
+    /* filter: hue-rotate(-200deg) drop-shadow(0px 0px 4px rgb(255, 60, 0)); */
+}
+
+.damaged {
+    filter: brightness(1.5) hue-rotate(-200deg) drop-shadow(0px 0px 4px rgb(255, 60, 0));
+}
+
+.energy {
+    filter: brightness(1.5) drop-shadow(0px 0px 10px rgba(0, 255, 255, 0.623));
+}
+
+.damagedEnemy {
+    filter: brightness(2) drop-shadow(0px 0px 4px rgb(59, 255, 196));
 }
 
 .shot {
@@ -202,7 +289,7 @@ body {
     top:0;
     left:0;
     display: none;
-    z-index: 5;
+    z-index: 6;
     box-shadow:0px 0px 10px #fff;
     /* box-shadow:0px 0px 10px rgb(255, 0, 179); */
     /* box-shadow:0px 0px 10px rgb(255, 218, 8); */
@@ -216,7 +303,7 @@ body {
     top:-70px;
     left:1000px;
     /* background: #f00; */
-    z-index: 4;
+    z-index: 5;
 }
 
 .trooper {
@@ -229,7 +316,7 @@ body {
     background-position-x: 0;
     background-position-y:0;
     display: none;
-    z-index: 4;
+    z-index: 5;
 }
 
 .explosion {
@@ -254,4 +341,30 @@ body {
     z-index: 6;
     background-position-x: 0px;
     background-position-y:0px;
+}
+
+.hexagon {
+    position: absolute;
+    width:35px;
+    height: 35px;
+    top:-35px;
+    left:1500px;
+    background: url(../images/hexagon.png);
+    background-position-x: 0;
+    background-position-y:0;
+    display: none;
+    z-index: 3;
+}
+
+.heart {
+    position: absolute;
+    width:35px;
+    height: 35px;
+    top:-35px;
+    left:1500px;
+    background: url(../images/heart.png);
+    background-position-x: 0;
+    background-position-y:0;
+    display: none;
+    z-index: 3;
 }

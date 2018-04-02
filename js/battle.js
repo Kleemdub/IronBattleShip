@@ -53,17 +53,6 @@ var enemies = [
     }
 ];
 
-// var troopers = [
-//     { 
-//         strenght: 1,
-//         health: 20,
-//         posX: 0,
-//         posY: 0,
-//         width:70,
-//         height:70
-//     }
-// ];
-
 //////////////////////////////////////////////////////////////////////////////
 // The Space ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -83,11 +72,14 @@ var score = 0;
 
 // Background scrolling //////////////////////////////////////////////////////
 var scrollSpeed = 40;
+var gear = 10;
+// var scrollSpeed = 1;
 var scrollInterval;
-function scrolling(){
-    scrollInterval = setInterval(function(){
+function scrolling(scrollSpeed){
+    scrollInterval = setInterval(function(scrollSpeed){
+        // gear = 1;
         if(bg1X > -1000){
-            bg1X -= 1;
+            bg1X -= gear;
             bg1.css({'background-position-x':bg1X});
         }
         else{
@@ -95,7 +87,7 @@ function scrolling(){
             bg1.css({'background-position-x':bg1X});
         }
         if(bg2X > -1000){
-            bg2X -= 2;
+            bg2X -= gear*2;
             bg2.css({'background-position-x':bg2X});
         }
         else{
@@ -103,10 +95,14 @@ function scrolling(){
             bg2.css({'background-position-x':bg2X});
         }
         
+        if(gear > 1){
+            gear -= 0.2;
+        }
+
     }, scrollSpeed);
 }
 // start the scrolling
-scrolling();
+// scrolling();
 
 
 
@@ -127,9 +123,6 @@ var shipBgInterval;
 var shipPosYInterval;
 var shipPosXInterval;
 
-// Shots /////////////////////////////////////////////////////////////////////
-// var shot = $('.shot');
-
 var ammunitions = [
     new Shots(10, 0, 0, 10, 4),
     new Shots(10, 0, 0, 10, 4),
@@ -147,121 +140,113 @@ var shotPosition = setInterval(function(){
     $('.armed').css({'top':myShip.posY+(myShip.height/2), 'left':myShip.posX+(myShip.width)});
 }, 8);
 
+function keybordEvents(){
 
-// KEYDOWN ///////////////////////////////////////////////////////////////////
-$('body').keydown(function() {
-    switch(event.keyCode){
-        case 32:
-        ammunitions[shotIdx].arm();
-            break;
+    // KEYDOWN ///////////////////////////////////////////////////////////////////
+    $('body').keydown(function() {
+        switch(event.keyCode){
+            case 32:
+            ammunitions[shotIdx].arm();
+                break;
 
-        case 104:
-        case 38:
-            // console.log("Up");
-            clearInterval(shipBgInterval);
-            shipBgInterval = setInterval(function(){
-                myShip.moveBgUp();
-            }, 30);
+            case 104:
+            case 38:
+                // console.log("Up");
+                clearInterval(shipBgInterval);
+                shipBgInterval = setInterval(function(){
+                    myShip.moveBgUp();
+                }, 30);
 
-            clearInterval(shipPosYInterval);
-            shipPosYInterval = setInterval(function(){
-                myShip.moveUp();
-            }, 8);
-            break;
-        
-        case 98:
-        case 40:
-            // console.log("Down");
-            clearInterval(shipBgInterval);
-            shipBgInterval = setInterval(function(){
-                myShip.moveBgDown();
-            }, 30);
+                clearInterval(shipPosYInterval);
+                shipPosYInterval = setInterval(function(){
+                    myShip.moveUp();
+                }, 8);
+                break;
+            
+            case 98:
+            case 40:
+                // console.log("Down");
+                clearInterval(shipBgInterval);
+                shipBgInterval = setInterval(function(){
+                    myShip.moveBgDown();
+                }, 30);
 
-            clearInterval(shipPosYInterval);
-            shipPosYInterval = setInterval(function(){
-                myShip.moveDown();
-            }, 8);
-            break;
+                clearInterval(shipPosYInterval);
+                shipPosYInterval = setInterval(function(){
+                    myShip.moveDown();
+                }, 8);
+                break;
 
-        case 100:
-        case 37:
-            // console.log("Left");
-            clearInterval(shipPosXInterval);
-            shipPosXInterval = setInterval(function(){
-                myShip.moveLeft();
-            }, 8);
-            break;
+            case 100:
+            case 37:
+                // console.log("Left");
+                clearInterval(shipPosXInterval);
+                shipPosXInterval = setInterval(function(){
+                    myShip.moveLeft();
+                }, 8);
+                break;
 
-        case 102:
-        case 39:
-            // console.log("Right");
-            clearInterval(shipPosXInterval);
-            shipPosXInterval = setInterval(function(){
-                myShip.moveRight();
-            }, 8);
-            break;
-    }
-    // console.log(event.keyCode);
-});
+            case 102:
+            case 39:
+                // console.log("Right");
+                clearInterval(shipPosXInterval);
+                shipPosXInterval = setInterval(function(){
+                    myShip.moveRight();
+                }, 8);
+                break;
+        }
+        // console.log(event.keyCode);
+    });
 
-// KEYUP /////////////////////////////////////////////////////////////////////
-$('body').keyup(function() {
-    switch(event.keyCode){
-        case 32:
-        ammunitions[shotIdx].fire();
-            break;
+    // KEYUP /////////////////////////////////////////////////////////////////////
+    $('body').keyup(function() {
+        switch(event.keyCode){
+            case 32:
+            ammunitions[shotIdx].fire();
+                break;
 
-        case 104:
-        case 38:
-            // console.log("Release Up");
-            clearInterval(shipBgInterval);
-            clearInterval(shipPosYInterval);
-            shipBgInterval = setInterval(function(){
-                myShip.releaseBgUp();
-            }, 50);
-            break;
-        
-        case 98:
-        case 40:
-            // console.log("Release Down");
-            clearInterval(shipBgInterval);
-            clearInterval(shipPosYInterval);
-            shipBgInterval = setInterval(function(){
-                myShip.releaseBgDown();
-            }, 50);
-            break;
+            case 104:
+            case 38:
+                // console.log("Release Up");
+                clearInterval(shipBgInterval);
+                clearInterval(shipPosYInterval);
+                shipBgInterval = setInterval(function(){
+                    myShip.releaseBgUp();
+                }, 50);
+                break;
+            
+            case 98:
+            case 40:
+                // console.log("Release Down");
+                clearInterval(shipBgInterval);
+                clearInterval(shipPosYInterval);
+                shipBgInterval = setInterval(function(){
+                    myShip.releaseBgDown();
+                }, 50);
+                break;
 
-        case 100:
-        case 37:
-            clearInterval(shipPosXInterval);
-            break;
+            case 100:
+            case 37:
+                clearInterval(shipPosXInterval);
+                break;
 
-        case 102:
-        case 39:
-            clearInterval(shipPosXInterval);
-            break;
-    }
-    // console.log(event.keyCode);
-});
+            case 102:
+            case 39:
+                clearInterval(shipPosXInterval);
+                break;
+        }
+        // console.log(event.keyCode);
+    });
+}
+
+// keybordEvents();
 
 
 //////////////////////////////////////////////////////////////////////////////
 // The Enemies //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
-// var trooper = new Trooper(troopers, 1, 20, 100, 100, 70, 70);
-
-// trooper.sayMyName();
-// trooper.launch(1000, 265);
-
 var trooperSection = [
-    // new Trooper(1, 20, 1000, -70, 70, 70),
-    // new Trooper(1, 20, 1000, -70, 70, 70),
-    // new Trooper(1, 20, 1000, -70, 70, 70),
-    // new Trooper(1, 20, 1000, -70, 70, 70),
-    // new Trooper(1, 20, 1000, -70, 70, 70),
-    // new Trooper(1, 20, 1000, -70, 70, 70)
-
     new Trooper(1, 20, 1000, -70, 0),
     new Trooper(1, 20, 1000, -70, 1),
     new Trooper(1, 20, 1000, -70, 2),
@@ -272,18 +257,23 @@ var trooperSection = [
 
 var trooperIdx = 0;  
 
+var trooperLaunching;
 // Troopers launching
-var trooperLaunching = setInterval(function(){
-    if(trooperIdx < 5){
-        trooperSection[trooperIdx].launch(1000, 265);
-        trooperIdx += 1;
-    }
-    else{
-        trooperSection[trooperIdx].launch(1000, 265);
-        trooperIdx = 0;
-    }
-    
-}, 1000);
+function launchTroopers(){
+    trooperLaunching = setInterval(function(){
+        if(trooperIdx < 5){
+            trooperSection[trooperIdx].launch(1000, 265);
+            trooperIdx += 1;
+        }
+        else{
+            trooperSection[trooperIdx].launch(1000, 265);
+            trooperIdx = 0;
+        }
+        
+    }, 1000);
+}
+
+// launchTroopers();
 
 // clearInterval(trooperLaunching);
 
@@ -326,31 +316,12 @@ function collisionShip (objA, objB) {
             (getLeft(objA)+35)   <= getRight(objB);
 }
 
-// function trooperCollision () {
-//     var hasCollided = false;
-
-//     trooperSection.forEach(function (oneTrooper) {
-//         if (collision(myShip, oneTrooper)) {
-//             hasCollided = true;
-//             console.log("BOOM");
-//         }
-//     });
-
-//     return hasCollided;
-// }
-
 function trooperCollision (oneTrooper) {
     var hasCollided = false;
-    // console.log(oneTrooper);
     
-    // console.log(oneTrooper.posX);
-    // console.log(oneTrooper.posY);
-
     if (collisionShip(myShip, oneTrooper)) {
         hasCollided = true;
-        // console.log("BOOM");
     }
-    // console.log(hasCollided);
 
     return hasCollided;
 }
@@ -394,7 +365,7 @@ function shotCollision (oneShot) {
         if (collision(oneShot, oneTrooper)) {
             hasCollided = true;
             // console.log("HIT!");
-            console.log("Index : " + oneTrooper.idx);
+            // console.log("Index : " + oneTrooper.idx);
 
             if(oneTrooper.receiveDamage(oneShot) <= 0){
                 var thisTrooper = $('.trooper[index='+ oneTrooper.idx +']');
@@ -413,10 +384,14 @@ function shotCollision (oneShot) {
             }
             else{
                 sparkles(oneTrooper.idx);
+                var thisTrooper = $('.trooper[index='+ oneTrooper.idx +']');
+                thisTrooper.addClass('damagedEnemy');
+                setTimeout(function(){
+                    thisTrooper.removeClass('damagedEnemy');
+                }, 100);
             }
         }
     });
-
     return hasCollided;
 }
 
@@ -430,13 +405,151 @@ function gameOver(){
 
     clearInterval(trooperLaunching);
     clearInterval(scrollInterval);
-
+    clearInterval(hexagonLaunching);
+    clearInterval(heartLaunching);
+    
     $('body').off();
 
     $('.overlay').animate({'opacity':1}, 150, function(){
-        $('.overlay h1').animate({'top':'240px'}, 150);
+        $('.overlay h2').animate({'top':'260px'}, 150);
     });
 }
+
+//////////////////////////////////////////////////////////////////////////////
+// LANCEMENT DU JEU /////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+$('.startBtn').click(function(){
+
+    scrolling(scrollSpeed);
+    
+
+    $('.startLayer').animate({'top':-800}, 300, function(){
+
+        // myShip.ship.css({'background-position-y':-myShip.shipBgCurrent});
+        // myShip.ship.css({'top':myShip.posY});
+        // myShip.ship.css({'left':myShip.posX});
+
+        myShip.ship.animate({'left':300}, 1000, function(){
+            myShip.posX = 300;
+            keybordEvents();
+            setTimeout(function(){
+                launchTroopers();
+                launchHexagon();
+                launchHeart();
+            },500);
+        });
+
+
+    });
+
+});
+
+//////////////////////////////////////////////////////////////////////////////
+// GOODIES //////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+var hexagons = [
+    new Hexagon(5, 1500, -35, 0),
+    new Hexagon(5, 1500, -35, 1),
+    new Hexagon(5, 1500, -35, 2),
+    new Hexagon(5, 1500, -35, 3),
+    new Hexagon(5, 1500, -35, 4),
+    new Hexagon(5, 1500, -35, 5),
+    new Hexagon(5, 1500, -35, 6),
+    new Hexagon(5, 1500, -35, 7),
+    new Hexagon(5, 1500, -35, 8),
+    new Hexagon(5, 1500, -35, 9),
+    new Hexagon(5, 1500, -35, 10),
+    new Hexagon(5, 1500, -35, 11),
+    new Hexagon(5, 1500, -35, 12),
+    new Hexagon(5, 1500, -35, 13),
+    new Hexagon(5, 1500, -35, 14),
+    new Hexagon(5, 1500, -35, 15),
+    new Hexagon(5, 1500, -35, 16),
+    new Hexagon(5, 1500, -35, 17),
+    new Hexagon(5, 1500, -35, 18),
+    new Hexagon(5, 1500, -35, 19)
+];
+
+var hexagonIdx = 0;  
+var hexagonLaunching;
+
+function launchHexagon(){
+    hexagonLaunching = setInterval(function(){
+        
+        var randLaunch = Math.floor(Math.random()*2);
+        var randNumber = Math.floor(Math.random()*8);
+        var randPosY = (Math.floor(Math.random()*500))+50;
+
+        // console.log(randLaunch);
+        // console.log(randNumber);
+        // console.log(randPosY);
+        // console.log('-----------------------------');
+
+        if(randLaunch === 0){
+            var delay = 1;
+            for(var i = 0; i < randNumber; i++){
+                setTimeout(function(){
+
+                    if(hexagonIdx < 19){
+                        hexagons[hexagonIdx].launch(randPosY);
+                        hexagonIdx += 1;
+                        // console.log(hexagonIdx);
+                    }
+                    else{
+                        hexagons[hexagonIdx].launch(randPosY);
+                        hexagonIdx = 0;
+                        // console.log(hexagonIdx);
+                    }
+
+                }, delay*100);
+
+                delay += 1;
+            }
+        }
+    }, 2000);
+}
+
+// launchHexagon();
+
+
+var hearts = [
+    new Heart(5, 1500, -35, 0),
+    new Heart(5, 1500, -35, 1),
+    new Heart(5, 1500, -35, 2)
+];
+
+var heartIdx = 0;  
+var heartLaunching;
+
+function launchHeart(){
+    heartLaunching = setInterval(function(){
+
+        var randLaunch = Math.floor(Math.random()*5);
+        var randPosY = (Math.floor(Math.random()*500))+50;
+
+        if(randLaunch === 0){
+            if(heartIdx < 2){
+                hearts[heartIdx].launch(randPosY);
+                heartIdx += 1;
+            }
+            else{
+                hearts[heartIdx].launch(randPosY);
+                heartIdx = 0;
+            }
+        }
+    }, 10000);
+}
+
+// launchHeart();
+
+
+
+
+
+
+
 
 
 

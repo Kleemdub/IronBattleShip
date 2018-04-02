@@ -21,7 +21,7 @@ function Ship_obj(height, width, shots){
     this.shipLeftLimit = 0;
     this.shipRightLimit = spaceWidth - this.width;
     this.shipPosYinit = (spaceHeight - this.height)/2;
-    this.shipPosXinit = 50;
+    this.shipPosXinit = -150;
     this.posY = this.shipPosYinit;
     this.posX = this.shipPosXinit;
     this.shots = shots;
@@ -100,7 +100,7 @@ Ship_obj.prototype.receiveDamage = function(enemy){
     if(this.health > 0){
         this.health -= enemy.strenght;
         currentHealth = this.health;
-        console.log(this.health);
+        // console.log(this.health);
         var currentLevel = 'level' + this.health;
         var previousLevel = 'level' + (this.health+1);
         $('.level').animate({'width':this.health*25+'%'}, 150, function(){
@@ -217,7 +217,7 @@ function Trooper(strenght, health, posX, posY, idx){
 }
 
 Trooper.prototype.receiveDamage = function(shot){
-    console.log("HIT!");
+    // console.log("HIT!");
     this.health -= shot.strenght;
     // console.log(this.health);
     return this.health;
@@ -381,60 +381,29 @@ var trooper_path = [
 
 Trooper.prototype.launch = function(x, y){
     var currentTrooper = trooperIdx;
-    // spaceBg.append('<div class="enemy trooper"></div>');
+
     var thisTrooper = $('.trooper[index='+ trooperIdx +']');
     thisTrooper.css({'left': x, 'top': y}).show();
-    // console.log(thisTrooper.css('left'));
-    // console.log(thisTrooper.css('width'));
-    // console.log(trooperSection[currentTrooper]);
-    // var trooperExplosion;
+
     var thisTrooperLaunch = setInterval(function(){
         trooperSection[currentTrooper].posX = parseFloat(thisTrooper.css('left'));
         trooperSection[currentTrooper].posY = parseFloat(thisTrooper.css('top'));
-        // console.log('posX : ' + trooperSection[currentTrooper].posX);
-        // console.log('posY : ' + trooperSection[currentTrooper].posY);
-        // console.log(trooperSection[currentTrooper]);
+
         if(trooperCollision (trooperSection[currentTrooper])){
-            console.log("CRASH");
+            // console.log("CRASH");
             clearInterval(thisTrooperLaunch);
             clearInterval(thisTrooperBgAnim);
-            // thisTrooper.hide();
-            // myShip.health -= 1;
-            // console.log(myShip.health);
-            myShip.receiveDamage(trooperSection[currentTrooper]);
 
-            // trooperBgY = 0;
-            // thisTrooper.css({'background-position-x':-70, 'background-position-y':0});
-            // trooperExplosion = setInterval(function(){
-            //     thisTrooper.css({'background-position-y':trooperBgY});
-            //     trooperBgY -= 70;
-            //     if(trooperBgY <= -1190){
-            //         clearInterval(trooperExplosion);
-            //         thisTrooper.hide();
-            //     }
-            // },60);
+            myShip.receiveDamage(trooperSection[currentTrooper]);
+            myShip.ship.addClass('damaged');
+            setTimeout(function(){
+                myShip.ship.removeClass('damaged');
+            }, 400);
 
             thisTrooper.hide();
             
             trooperExplosion(currentTrooper);
-            
-            // var explosion = '<div index="' + currentTrooper + '" class="explosion"></div>';
-            // $('.explosionsLayer').append(explosion);
-            // explosion = $('.explosion[index='+ currentTrooper +']');
-            // explosion.css({'left':trooperSection[currentTrooper].posX-35, 'top':trooperSection[currentTrooper].posY-35});
-            // var explosionBg = 0;
-            // var trooperExplosion = setInterval(function(){
-            //     explosion.css({'background-position-y':explosionBg});
-            //     explosionBg -= 140;
-            //     if(explosionBg <= -2380){
-            //         clearInterval(trooperExplosion);
-            //         explosion.remove();
-            //     }
-            // },60);
-
         }   
-
-
     }, 10);
 
     var trooperBgY = 0;
@@ -464,12 +433,126 @@ Trooper.prototype.launch = function(x, y){
 };
 
 
+//////////////////////////////////////////////////////////////////////////////
+// GOODIES //////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 
+function Hexagon(value, posX, posY, idx){
+    this.value = value;
+    this.posX = posX;
+    this.posY = posY;
+    this.idx = idx;
+    this.width = 35;
+    this.height = 35;
+}
 
+Hexagon.prototype.launch = function(posY){
+    var currentHexagon = hexagonIdx;
 
+    var thisHexagon = $('.hexagon[index='+ currentHexagon +']');
+    thisHexagon.css({'left': 1500, 'top': posY}).show();
 
+    var thisHexagonLaunch = setInterval(function(){
+        hexagons[currentHexagon].posX = parseFloat(thisHexagon.css('left'));
+        hexagons[currentHexagon].posY = parseFloat(thisHexagon.css('top'));
 
+        if(trooperCollision (hexagons[currentHexagon])){
+            // console.log("HEXA");
+            clearInterval(thisHexagonLaunch);
+            clearInterval(thisHexaBgAnim);
 
+            myShip.ship.addClass('energy');
+            setTimeout(function(){
+                myShip.ship.removeClass('energy');
+            }, 150);
+
+            increaseScore(5);
+
+            thisHexagon.hide();
+        }   
+    }, 10);
+
+    var hexagonBgY = 0;
+    var thisHexaBgAnim = setInterval(function(){
+        thisHexagon.css({'background-position-y':hexagonBgY});
+        hexagonBgY -= 35;
+        if(hexagonBgY <= -595){
+            hexagonBgY = 0;
+        }
+    }, 30);
+
+    setTimeout(function(){
+        clearInterval(thisHexagonLaunch);
+        clearInterval(thisHexaBgAnim);
+    }, 8000);
+
+    thisHexagon.animate({'left':-335}, 8000, function(){
+        thisHexagon.css({'left': 1500, 'top': -35, 'background-position-y':0, 'background-position-x':0}).hide();
+        hexagons[currentHexagon].posX = 1500;
+        hexagons[currentHexagon].posY = -35;
+    });
+};
+
+function Heart(value, posX, posY, idx){
+    this.value = value;
+    this.posX = posX;
+    this.posY = posY;
+    this.idx = idx;
+    this.width = 35;
+    this.height = 35;
+}
+
+Heart.prototype.launch = function(posY){
+    var currentHeart = heartIdx;
+
+    var thisHeart = $('.heart[index='+ currentHeart +']');
+    thisHeart.css({'left': 1500, 'top': posY}).show();
+
+    var thisHeartLaunch = setInterval(function(){
+        hearts[currentHeart].posX = parseFloat(thisHeart.css('left'));
+        hearts[currentHeart].posY = parseFloat(thisHeart.css('top'));
+
+        if(trooperCollision (hearts[currentHeart])){
+            // console.log("HEART");
+            clearInterval(thisHeartLaunch);
+            clearInterval(thisHeartBgAnim);
+
+            myShip.ship.addClass('energy');
+            setTimeout(function(){
+                myShip.ship.removeClass('energy');
+            }, 150);
+
+            thisHeart.hide();
+
+            myShip.health = 4;
+
+            $('.level').animate({'width':'100%'}, 150, function(){
+                $('.level').removeClass('level1').removeClass('level2').removeClass('level3');
+                $('.level').addClass('level4');
+            });
+        }   
+    }, 10);
+
+    var heartBgY = 0;
+    var thisHeartBgAnim = setInterval(function(){
+        thisHeart.css({'background-position-y':heartBgY});
+        heartBgY -= 35;
+        if(heartBgY <= -595){
+            heartBgY = 0;
+        }
+    }, 30);
+
+    setTimeout(function(){
+        clearInterval(thisHeartLaunch);
+        clearInterval(thisHeartBgAnim);
+    }, 8000);
+
+    thisHeart.animate({'left':-335}, 8000, function(){
+        thisHeart.css({'left': 1500, 'top': -35, 'background-position-y':0, 'background-position-x':0}).hide();
+        hearts[currentHeart].posX = 1500;
+        hearts[currentHeart].posY = -35;
+    });
+};
 
 
 
