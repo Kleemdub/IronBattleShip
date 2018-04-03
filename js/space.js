@@ -26,6 +26,7 @@ function Ship_obj(height, width, shots){
     this.posX = this.shipPosXinit;
     this.shots = shots;
     this.health = 4;
+    this.power = 0;
 }
 
 
@@ -129,12 +130,21 @@ function Shots(strenght, posX, posY, width, height){
 
 Shots.prototype.arm = function(){
     var thisShot = $('.armed[index='+ shotIdx +']');
+    // console.log(shotHeight);
+    // if(checkShot === false){
+    //     shotHeight = 4;
+    //     thisShot.css({'height':shotHeight});
+    // }
+    // checkShot = true;
     thisShot.show();
-    $('.armed[index='+ shotIdx +']').show();
-    // var shotHeight = 4;
+    // $('.armed[index='+ shotIdx +']').show();
+
+    /////////////////////////////////////////////////////////////////////////
+
     // clearInterval(loadingShot);
     // loadingShot = setInterval(function(){
     //     if(shotHeight < 40){
+    //         console.log(shotHeight);
     //         shotHeight += 1;
     //         thisShot.css({'height':shotHeight});
     //     }
@@ -144,13 +154,17 @@ Shots.prototype.arm = function(){
         
     // },100);
     // clearInterval(loadingShot);
+
+    /////////////////////////////////////////////////////////////////////////
 };
 
 Shots.prototype.fire = function(){
-    shotHeight = 4;
-    // clearInterval(loadingShot);
+    // checkShot = false;
+    // shotHeight = 4;
+    clearInterval(loadingShot);
     currentShot = shotIdx;
-    // console.log(this.shots[currentShot].strenght);
+    // console.log(ammunitions[currentShot].strenght);
+
     if(shotIdx < 5){
         shotIdx += 1;
     }
@@ -186,12 +200,31 @@ Shots.prototype.fire = function(){
         }
 
     }, 5);
+
+    // Super power
+    if(myShip.power > 10){
+        myShip.power -= 10;
+        $('.powerBar .powerLevel').css({'width':myShip.power + '%'});
+    }
+    else if(myShip.power <= 10){
+        myShip.power = 0;
+        $('.powerBar').hide();
+        $('.powerBar .powerLevel').css({'width':'100%'});
+        myShip.ship.removeClass('power');
+        ammunitions.forEach(function(oneShot){
+            oneShot.strenght = 10;
+        });
+        $('.shot').css({'width':'10px', 'height':'4px'});
+        superPower = 0;
+    }
 };
 
 
 //////////////////////////////////////////////////////////////////////////////
 // ENEMIES //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
+
+// TROOPER //////////////////////////////////////////////////////////////////
 
 function Enemy(enemies, strenght, health, posX, posY, width, height){
     this.enemies = enemies;
@@ -432,6 +465,110 @@ Trooper.prototype.launch = function(x, y){
     });
 };
 
+// MISSILE //////////////////////////////////////////////////////////////////
+
+function Missile(strenght, health, posX, posY, idx){
+    this.strenght = strenght;
+    this.health = health;
+    this.posX = posX;
+    this.posY = posY;
+    this.idx = idx;
+    this.width = 236;
+    this.height = 70;
+}
+
+Missile.prototype.launch = function(x, y){
+    var currentMissile = missileIdx;
+
+    var thisMissile = $('.missile[index='+ missileIdx +']');
+    thisMissile.css({'left': x, 'top': y}).show();
+
+    var missileBgY = 0;
+
+    var thisMissileLaunch = setInterval(function(){
+        // missileSection[currentMissile].posX = parseFloat(thisMissile.css('left'));
+        // missileSection[currentMissile].posY = parseFloat(thisMissile.css('top'));
+        if(missileSection[currentMissile].posY <= 600){
+            missileSection[currentMissile].posY += 2;
+            thisMissile.css({'top': missileSection[currentMissile].posY});
+            
+            missileBgY -= 70;
+            thisMissile.css({'background-position-y':missileBgY});
+            if(missileBgY <= -1190){
+                missileBgY = 0;
+            }
+
+            if(detectionShip (missileSection[currentMissile])){
+                // console.log('detected');
+                clearInterval(thisMissileLaunch);
+                missileSection[currentMissile].fire(currentMissile);
+            } 
+        }
+        else{
+            clearInterval(thisMissileLaunch);
+            missileSection[currentMissile].posY = -70;
+            thisMissile.css({'top': missileSection[currentMissile].posY});
+            thisMissile.hide();
+        }
+    }, 20);
+};
+
+Missile.prototype.fire = function(index){
+
+    var missileBgY = 0;
+    var thisMissile = $('.missile[index='+ index +']');
+
+    var thisMissileFire = setInterval(function(){
+        if(missileSection[index].posX >= -250){
+
+            missileSection[index].posX -= 30;
+            thisMissile.css({'left': missileSection[index].posX});
+
+            missileBgY -= 70;
+            thisMissile.css({'background-position-y':missileBgY});
+            if(missileBgY <= -1190){
+                missileBgY = 0;
+            }
+
+            if(trooperCollision (missileSection[index])){
+                // console.log("CRASH");
+                clearInterval(thisMissileFire);
+    
+                myShip.receiveDamage(missileSection[index]);
+                myShip.ship.addClass('damaged');
+                setTimeout(function(){
+                    myShip.ship.removeClass('damaged');
+                }, 400);
+    
+                thisMissile.hide();
+                
+                missileExplosion(index);
+
+                clearInterval(thisMissileFire);
+                missileSection[index].posX = 750;
+                missileSection[index].posY = -70;
+                thisMissile.css({'top': missileSection[index].posY});
+                thisMissile.css({'left': missileSection[index].posX});
+                thisMissile.hide();
+            }   
+        }
+        else{
+            clearInterval(thisMissileFire);
+            missileSection[index].posX = 750;
+            missileSection[index].posY = -70;
+            thisMissile.css({'top': missileSection[index].posY});
+            thisMissile.css({'left': missileSection[index].posX});
+            thisMissile.hide();
+        }
+    }, 20);
+};
+
+Missile.prototype.receiveDamage = function(shot){
+    // console.log("HIT!");
+    this.health -= shot.strenght;
+    // console.log(this.health);
+    return this.health;
+};
 
 //////////////////////////////////////////////////////////////////////////////
 // GOODIES //////////////////////////////////////////////////////////////////
@@ -554,9 +691,70 @@ Heart.prototype.launch = function(posY){
     });
 };
 
+function Diamond(value, posX, posY, idx){
+    this.value = value;
+    this.posX = posX;
+    this.posY = posY;
+    this.idx = idx;
+    this.width = 35;
+    this.height = 35;
+}
 
+Diamond.prototype.launch = function(posY){
+    var currentDiamond = diamondIdx;
 
+    var thisDiamond = $('.diamond[index='+ currentDiamond +']');
+    thisDiamond.css({'left': 1500, 'top': posY}).show();
 
+    var thisDiamondLaunch = setInterval(function(){
+        diamonds[currentDiamond].posX = parseFloat(thisDiamond.css('left'));
+        diamonds[currentDiamond].posY = parseFloat(thisDiamond.css('top'));
+
+        if(trooperCollision (diamonds[currentDiamond])){
+            // console.log("HEART");
+            clearInterval(thisDiamondLaunch);
+            clearInterval(thisDiamondBgAnim);
+
+            myShip.ship.addClass('energy');
+            setTimeout(function(){
+                myShip.ship.removeClass('energy');
+            }, 150);
+
+            thisDiamond.hide();
+
+            myShip.ship.addClass('power');
+            myShip.power = 100;
+            $('.powerBar .powerLevel').css({'width':'100%'});
+            $('.powerBar').show();
+
+            ammunitions.forEach(function(oneShot){
+                oneShot.strenght = 50;
+            });
+            superPower = 8;
+            $('.shot').css({'width':'10px', 'height':'20px'});
+        }   
+    }, 10);
+
+    var diamondBgY = 0;
+    var thisDiamondBgAnim = setInterval(function(){
+        thisDiamond.css({'background-position-y':diamondBgY});
+        diamondBgY -= 35;
+        if(diamondBgY <= -595){
+            diamondBgY = 0;
+        }
+    }, 30);
+
+    setTimeout(function(){
+        clearInterval(thisDiamondLaunch);
+        clearInterval(thisDiamondBgAnim);
+    }, 8000);
+
+    thisDiamond.animate({'left':-335}, 8000, function(){
+        thisDiamond.css({'left': 1500, 'top': -35, 'background-position-y':0, 'background-position-x':0}).hide();
+        diamonds[currentDiamond].posX = 1500;
+        diamonds[currentDiamond].posY = -35;
+    });
+};
 
 
 

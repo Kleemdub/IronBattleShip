@@ -136,8 +136,10 @@ var shotIdx = 0;
 var currentShot = 0;
 var shotHeight = 4;
 var loadingShot;
+var checkShot = false;
+var superPower = 0;
 var shotPosition = setInterval(function(){
-    $('.armed').css({'top':myShip.posY+(myShip.height/2), 'left':myShip.posX+(myShip.width)});
+    $('.armed').css({'top':myShip.posY+(myShip.height/2) - superPower, 'left':myShip.posX+(myShip.width)});
 }, 8);
 
 function keybordEvents(){
@@ -246,6 +248,8 @@ function keybordEvents(){
 // The Enemies //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
+// TROOPER ////////////////////////////////////////////////////////////////
+
 var trooperSection = [
     new Trooper(1, 20, 1000, -70, 0),
     new Trooper(1, 20, 1000, -70, 1),
@@ -256,9 +260,8 @@ var trooperSection = [
 ];
 
 var trooperIdx = 0;  
-
 var trooperLaunching;
-// Troopers launching
+
 function launchTroopers(){
     trooperLaunching = setInterval(function(){
         if(trooperIdx < 5){
@@ -277,6 +280,30 @@ function launchTroopers(){
 
 // clearInterval(trooperLaunching);
 
+// MISSILE ////////////////////////////////////////////////////////////////
+
+var missileSection = [
+    new Missile(2, 20, 750, -70, 0),
+    new Missile(2, 20, 750, -70, 1),
+    new Missile(2, 20, 750, -70, 2)
+];
+
+var missileIdx = 0;
+var missileLaunching;
+
+function launchMissiles(){
+    missileLaunching = setInterval(function(){
+        if(missileIdx < 2){
+            missileSection[missileIdx].launch(750, -70);
+            missileIdx += 1;
+        }
+        else{
+            missileSection[missileIdx].launch(750, -70);
+            missileIdx = 0;
+        }
+        
+    }, 5000);
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // Collisions ///////////////////////////////////////////////////////////////
@@ -316,6 +343,21 @@ function collisionShip (objA, objB) {
             (getLeft(objA)+35)   <= getRight(objB);
 }
 
+function detection (objA, objB) {
+    return  (getBottom(objA)-65) >= getTop(objB)    &&
+            (getTop(objA)+65)    <= getBottom(objB);
+}
+
+function detectionShip (oneMissile) {
+    var hasDetected = false;
+    
+    if (detection(myShip, oneMissile)) {
+        hasDetected = true;
+    }
+
+    return hasDetected;
+}
+
 function trooperCollision (oneTrooper) {
     var hasCollided = false;
     
@@ -331,6 +373,22 @@ function trooperExplosion(index){
     $('.explosionsLayer').append(explosion);
     explosion = $('.explosion[index='+ index +']');
     explosion.css({'left':trooperSection[index].posX-35, 'top':trooperSection[index].posY-35});
+    var explosionBg = 0;
+    var explosionInterval = setInterval(function(){
+        explosion.css({'background-position-y':explosionBg});
+        explosionBg -= 140;
+        if(explosionBg <= -2380){
+            clearInterval(explosionInterval);
+            explosion.remove();
+        }
+    },60);
+}
+
+function missileExplosion(index){
+    var explosion = '<div index="' + index + '" class="explosion"></div>';
+    $('.explosionsLayer').append(explosion);
+    explosion = $('.explosion[index='+ index +']');
+    explosion.css({'left':missileSection[index].posX, 'top':missileSection[index].posY-35});
     var explosionBg = 0;
     var explosionInterval = setInterval(function(){
         explosion.css({'background-position-y':explosionBg});
@@ -392,11 +450,45 @@ function shotCollision (oneShot) {
             }
         }
     });
+
+    missileSection.forEach(function (oneMissile) {
+        if (collision(oneShot, oneMissile)) {
+            hasCollided = true;
+            // console.log("HIT!");
+            // console.log("Index : " + oneTrooper.idx);
+
+            if(oneMissile.receiveDamage(oneShot) <= 0){
+                var thisMissile = $('.missile[index='+ oneMissile.idx +']');
+
+                thisMissile.css({'left': 750, 'top': -70, 'background-position-y':0, 'background-position-x':0}).hide();
+                
+                missileExplosion(oneMissile.idx);
+
+                oneMissile.posX = 750;
+                oneMissile.posY = -70;
+                oneMissile.health = 20;
+
+                increaseScore(oneMissile.health);
+            }
+            else{
+                sparkles(oneMissile.idx);
+                var thisMissile = $('.missile[index='+ oneMissile.idx +']');
+                thisMissile.addClass('damagedEnemy');
+                setTimeout(function(){
+                    thisMissile.removeClass('damagedEnemy');
+                }, 100);
+            }
+        }
+    });
+
     return hasCollided;
 }
 
 function increaseScore(nb){
     score += nb;
+    if(score >= 200){
+        // launchMissiles();
+    }
     $('.score').html(score + ' PTS');;
 }
 
@@ -407,6 +499,10 @@ function gameOver(){
     clearInterval(scrollInterval);
     clearInterval(hexagonLaunching);
     clearInterval(heartLaunching);
+    clearInterval(diamondLaunching);
+    clearInterval(missileLaunching);
+    
+    
     
     $('body').off();
 
@@ -419,11 +515,23 @@ function gameOver(){
 // LANCEMENT DU JEU /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
+$('body').keydown(function() {
+    switch(event.keyCode){
+        case 13:
+            $('.startBtn').trigger('click');
+            break;
+
+        case 73:
+            $('.info-btn').trigger('click');
+            break;
+    }
+});
+
 $('.startBtn').click(function(){
 
+    $('body').off();
     scrolling(scrollSpeed);
     
-
     $('.startLayer').animate({'top':-800}, 300, function(){
 
         // myShip.ship.css({'background-position-y':-myShip.shipBgCurrent});
@@ -437,6 +545,10 @@ $('.startBtn').click(function(){
                 launchTroopers();
                 launchHexagon();
                 launchHeart();
+                launchDiamond();
+                setTimeout(function(){
+                    launchMissiles();
+                }, 30000);
             },500);
         });
 
@@ -444,6 +556,29 @@ $('.startBtn').click(function(){
     });
 
 });
+
+var checkInfo = false;
+
+$('.info-btn').click(function(){
+    if(checkInfo === false){
+        $(this).slideUp(300);
+        $('.startLayer h1').animate({'padding-top':'100px'}, 300);
+        checkInfo = true;
+    }
+    else{
+        $('.info-btn').slideDown(300);
+        $('.startLayer h1').animate({'padding-top':'250px'}, 300);
+        checkInfo = false;
+    }
+});
+
+$('.info-close').click(function(){
+    $('.info-btn').trigger('click');
+    // $('.info-btn').slideDown(300);
+    // $('.startLayer h1').animate({'padding-top':'250px'}, 300);
+});
+
+
 
 //////////////////////////////////////////////////////////////////////////////
 // GOODIES //////////////////////////////////////////////////////////////////
@@ -544,9 +679,33 @@ function launchHeart(){
 
 // launchHeart();
 
+var diamonds = [
+    new Diamond(5, 1500, -35, 0),
+    new Diamond(5, 1500, -35, 1),
+    new Diamond(5, 1500, -35, 2)
+];
 
+var diamondIdx = 0;  
+var diamondLaunching;
 
+function launchDiamond(){
+    diamondLaunching = setInterval(function(){
 
+        var randLaunch = Math.floor(Math.random()*5);
+        var randPosY = (Math.floor(Math.random()*500))+50;
+
+        if(randLaunch === 0){
+            if(diamondIdx < 2){
+                diamonds[diamondIdx].launch(randPosY);
+                diamondIdx += 1;
+            }
+            else{
+                diamonds[diamondIdx].launch(randPosY);
+                diamondIdx = 0;
+            }
+        }
+    }, 10000);
+}
 
 
 
