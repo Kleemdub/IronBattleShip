@@ -570,6 +570,196 @@ Missile.prototype.receiveDamage = function(shot){
     return this.health;
 };
 
+// FINAL BOSS //////////////////////////////////////////////////////////////////
+
+function Boss(strenght, health, posX, posY){
+    this.strenght = strenght;
+    this.health = health;
+    this.posX = posX;
+    this.posY = posY;
+    this.width = 250;
+    this.height = 250;
+    this.element = $('.boss');
+    // this.invincible = false;
+}
+
+function Boss_shot(strenght, posX, posY){
+    this.strenght = strenght;
+    this.posX = posX;
+    this.posY = posY;
+    this.width = 30;
+    this.height = 30;
+}
+
+Boss_shot.prototype.fire = function(){
+    console.log("BOSS FIRE");
+
+    var shotMove = setInterval(function(){
+        bossShot.posX = parseFloat($('.boss-shot').css('left'));
+        bossShot.posY = parseFloat($('.boss-shot').css('top'));
+
+        if(trooperCollision (bossShot)){
+        
+            clearInterval(shotMove);
+
+            myShip.receiveDamage(bossShot);
+            myShip.ship.addClass('damaged');
+            setTimeout(function(){
+                myShip.ship.removeClass('damaged');
+            }, 400);
+        }
+    },10);
+
+    $('.boss-shot').removeClass('shot-init').show();
+    $('.boss-shot').animate({'left':myShip.posX, 'top':myShip.posY+65}, 600, function(){
+        $('.boss-shot').addClass('shot-init').hide();
+        clearInterval(shotMove);
+    });
+};
+
+Boss.prototype.launch = function(x, y){
+    boss.posX = x;
+    boss.posY = y;
+    boss.element.css({'left':x, 'top':y}).show();
+    boss.element.animate({'left':720}, 1000, function(){
+        boss.posX = parseFloat(boss.element.css('left')) + 100;
+        // boss.posX = 720;
+    });
+
+    // setTimeout(function(){
+    //     boss.open();
+    // }, 1000);
+
+    // setTimeout(function(){
+    //     boss.move();
+    // }, 1000);
+
+    bossInterval = setInterval(function(){
+        var randAction = Math.floor(Math.random()*4);
+        if(randAction == 0){
+            boss.open();
+        }
+        else if(randAction == 1 || randAction == 2){
+            bossShot.fire();
+        }
+        else{
+            boss.move();
+        }
+    }, 2000);
+    
+    
+};
+
+Boss.prototype.open = function(){
+    boss.element.css({'background-position-x':'-250px', 'background-position-y':'-1250px'});
+    var eyeX = -250;
+    var eyeY = -1250;
+    bossInvincible = false;
+    
+    var openEye = setInterval(function(){
+        if(eyeY > -2000){
+            eyeY -= 250;
+            boss.element.css({'background-position-y':eyeY});
+        }
+        else{
+            clearInterval(openEye);
+            $('.boss .eye').show();
+        }
+    },60);
+
+    setTimeout(function(){
+        boss.close();
+    }, 1000);
+};
+
+Boss.prototype.close = function(){
+    boss.element.css({'background-position-x':'-250px', 'background-position-y':'-2000px'});
+    var eyeX = -250;
+    var eyeY = -2000;
+    bossInvincible = true;
+    $('.boss .eye').hide();
+    var openEye = setInterval(function(){
+        if(eyeY < -1250){
+            eyeY += 250;
+            boss.element.css({'background-position-y':eyeY});
+        }
+        else{
+            clearInterval(openEye);
+            boss.element.css({'background-position-x':'0px'});
+        }
+    },60);
+};
+
+Boss.prototype.move = function(){
+    var randY = Math.floor( (Math.random()*410) - 40);
+    var moveBossDown;
+    var moveBossUp;
+    var bossBgY;
+    var moveDown;
+    if(randY > boss.posY){
+        moveDown = true;
+        console.log("move down");
+        bossBgY = -1250;
+        moveBossDown = setInterval(function(){
+            if(bossBgY > -2500){
+                bossBgY -= 250;
+                boss.element.css({'background-position-y':bossBgY});
+            }
+            else{
+                clearInterval(moveBossDown);
+            }
+        }, 20);
+    }
+    else{
+        moveDown = false;
+        console.log("move up");
+        bossBgY = -1250;
+        moveBossUp = setInterval(function(){
+            if(bossBgY < 0){
+                bossBgY += 250;
+                boss.element.css({'background-position-y':bossBgY});
+            }
+            else{
+                clearInterval(moveBossUp);
+            }
+        }, 20);
+    }
+
+    boss.element.animate({'top':randY}, 250, function(){
+
+        boss.posY = parseFloat(boss.element.css('top'));
+
+        if(moveDown == true){
+            bossBgY = -2500;
+            moveBossDown = setInterval(function(){
+                if(bossBgY < -1250){
+                    bossBgY += 250;
+                    boss.element.css({'background-position-y':bossBgY});
+                }
+                else{
+                    clearInterval(moveBossDown);
+
+                }
+            }, 20);
+        }
+        else{
+            bossBgY = 0;
+            moveBossDown = setInterval(function(){
+                if(bossBgY > -1250){
+                    bossBgY -= 250;
+                    boss.element.css({'background-position-y':bossBgY});
+                }
+                else{
+                    clearInterval(moveBossDown);
+
+                }
+            }, 20);
+        }
+    });
+};
+
+
+
 //////////////////////////////////////////////////////////////////////////////
 // GOODIES //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////

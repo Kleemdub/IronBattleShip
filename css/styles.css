@@ -134,21 +134,29 @@ body {
     background: linear-gradient(rgb(142, 232, 255), rgb(0, 140, 255));
 }
 
+.bossBar {
+    width:200px;
+    height: 13px;
+    background: rgba(255, 255, 255, 0.267);
+    /* background:#fff; */
+    box-shadow:0px 0px 10px #040b2c;
+    margin-left: 20px;
+    margin-top:30px;
+    padding: 3px;
+    float: right;
+    display: none;
+}
+
+.bossBar .bossLevel {
+    height: 13px;
+    width:100%;
+    background:rgb(255, 0, 0);
+    background: linear-gradient(rgb(255, 115, 115), rgb(255, 0, 0));
+}
+
 .healthBar .level {
     height: 13px;
     width:100%;
-    /* width:100%;
-    background:rgb(0, 255, 149);
-    background: linear-gradient(rgb(109, 255, 194), rgb(0, 255, 149)); */
-    /* width:75%;
-    background:rgb(255, 244, 83);
-    background: linear-gradient(rgb(255, 249, 168), rgb(255, 244, 83)); */
-    /* width:50%;
-    background:rgb(255, 170, 72);
-    background: linear-gradient(rgb(255, 206, 151), rgb(255, 170, 72)); */
-    /* width:25%;
-    background:rgb(255, 74, 74);
-    background: linear-gradient(rgb(255, 162, 162), rgb(255, 74, 74)); */
 }
 
 .healthBar .level4 {
@@ -177,6 +185,8 @@ body {
 
 .score {
     float: right;
+    width:150px;
+    text-align: right;
     margin-right:50px;
     margin-top:25px;
     /* background: #f00; */
@@ -378,6 +388,10 @@ body {
     filter: brightness(2) drop-shadow(0px 0px 4px rgb(59, 255, 196));
 }
 
+.damagedEye {
+    filter: brightness(1.7) saturate(200%) drop-shadow(0px 0px 8px rgb(255, 85, 33));
+}
+
 .shot {
     width:10px;
     height:4px;
@@ -430,6 +444,54 @@ body {
     background-position-y:0;
     display: none;
     z-index: 5;
+}
+
+.boss {
+    position: absolute;
+    width:250px;
+    height: 250px;
+    top:0;
+    left:0;
+    /* top:-40px;
+    top:370px;
+    left:720px; */
+    background: url(../images/boss.png);
+    background-position-x: 0px;
+    background-position-y:-1250px;
+    /* background-position-x: -250px;
+    background-position-y:-2000px; */
+    display: none;
+    z-index: 5;
+}
+
+.boss .eye {
+    position: absolute;
+    width:16px;
+    height: 45px;
+    top:144px;
+    left:34px;
+    background: url(../images/boss-eye.png);
+    background-position-x: 0px;
+    background-position-y:0px;
+    display: none;
+    z-index: 5;
+}
+
+.boss-shot {
+    position: absolute;
+    z-index: 8;
+    display: none;
+    width:30px;
+    height:30px;
+    /* background: #fff; */
+    background: radial-gradient(#fff, rgb(255, 174, 128));
+    /* border:1px solid rgba(255, 138, 60, 0.596); */
+    border-radius: 50%;
+    top:125px;
+    left:40px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px rgb(255, 174, 128);
+
 }
 
 .explosion {

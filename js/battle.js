@@ -140,6 +140,9 @@ var checkShot = false;
 var superPower = 0;
 var shotPosition = setInterval(function(){
     $('.armed').css({'top':myShip.posY+(myShip.height/2) - superPower, 'left':myShip.posX+(myShip.width)});
+    $('.shot-init').css({'top':boss.posY + 125, 'left':boss.posX -60});
+    bossShot.posX = boss.posX -60;
+    bossShot.posY = boss.posY + 125;
 }, 8);
 
 function keybordEvents(){
@@ -283,9 +286,9 @@ function launchTroopers(){
 // MISSILE ////////////////////////////////////////////////////////////////
 
 var missileSection = [
-    new Missile(2, 20, 750, -70, 0),
-    new Missile(2, 20, 750, -70, 1),
-    new Missile(2, 20, 750, -70, 2)
+    new Missile(1, 20, 750, -70, 0),
+    new Missile(1, 20, 750, -70, 1),
+    new Missile(1, 20, 750, -70, 2)
 ];
 
 var missileIdx = 0;
@@ -304,6 +307,19 @@ function launchMissiles(){
         
     }, 5000);
 }
+
+// FINAL BOSS //////////////////////////////////////////////////////////////////
+
+var boss = new Boss(1, 200, 1000, -250);
+var bossShot = new Boss_shot(1, 0, 0);
+
+var bossInvincible = true;
+var bossInterval;
+
+// setTimeout(function(){
+//     boss.launch(1000, 175);
+// }, 2000);
+// boss.launch(1000, 175);
 
 //////////////////////////////////////////////////////////////////////////////
 // Collisions ///////////////////////////////////////////////////////////////
@@ -334,6 +350,14 @@ function collision (objA, objB) {
             getTop(objA)    <= getBottom(objB) &&
             getRight(objA)  >= getLeft(objB)   &&
             getLeft(objA)   <= getRight(objB);
+}
+
+function collisionEye (objA, objB) {
+    return  getBottom(objA) >= (getTop(objB)+144)    &&
+            getTop(objA)    <= (getBottom(objB)-61) &&
+            getRight(objA)  >= (getLeft(objB)-15)   &&
+            getLeft(objA)   <= getRight(objB);
+            
 }
 
 function collisionShip (objA, objB) {
@@ -416,6 +440,24 @@ function sparkles(index){
     },30);
 }
 
+function sparklesBoss(oneShot){
+    // console.log('x : ' + boss.posX);
+    // console.log('y : ' + boss.posY);
+    var sparkle = '<div class="sparkle"></div>';
+    $('.explosionsLayer').append(sparkle);
+    sparkle = $('.sparkle');
+    sparkle.css({'left':boss.posX - 40, 'top':oneShot.posY - 40});
+    var sparkleBg = 0;
+    var sparkleInterval = setInterval(function(){
+        sparkleBg -= 70;
+        sparkle.css({'background-position-y':sparkleBg});
+        if(sparkleBg <= -350){
+            clearInterval(sparkleInterval);
+            sparkle.remove();
+        }
+    },30);
+}
+
 function shotCollision (oneShot) {
     var hasCollided = false;
 
@@ -471,7 +513,7 @@ function shotCollision (oneShot) {
                 increaseScore(oneMissile.health);
             }
             else{
-                sparkles(oneMissile.idx);
+                // sparkles();
                 var thisMissile = $('.missile[index='+ oneMissile.idx +']');
                 thisMissile.addClass('damagedEnemy');
                 setTimeout(function(){
@@ -481,13 +523,45 @@ function shotCollision (oneShot) {
         }
     });
 
+    if (collision(oneShot, boss)) {
+        hasCollided = true;
+        sparklesBoss(oneShot);
+        // var thisBoss = $('.missile[index='+ oneMissile.idx +']');
+        // boss.element.addClass('damagedEnemy');
+        // setTimeout(function(){
+        //     boss.element.removeClass('damagedEnemy');
+        // }, 100);
+    }
+    
+    if (collisionEye(oneShot, boss)) {
+
+        if(bossInvincible == false){
+            hasCollided = true;
+            // console.log('HIT EYE');
+            $('.boss .eye').addClass('damagedEye');
+            setTimeout(function(){
+                $('.boss .eye').removeClass('damagedEye');
+            }, 100);
+
+            boss.health -= oneShot.strenght;
+            console.log(boss.health);
+            if(boss.health <= 00){
+                console.log('YOU WIN!!!');
+                // gameWin();
+            }
+        }
+        
+    }
+
     return hasCollided;
 }
 
 function increaseScore(nb){
     score += nb;
-    if(score >= 200){
+    if(score >= 300){
         // launchMissiles();
+        // boss.launch(1000, 175);
+        // clearInterval(trooperLaunching);
     }
     $('.score').html(score + ' PTS');;
 }
@@ -501,8 +575,7 @@ function gameOver(){
     clearInterval(heartLaunching);
     clearInterval(diamondLaunching);
     clearInterval(missileLaunching);
-    
-    
+    clearInterval(bossInterval)
     
     $('body').off();
 
@@ -548,7 +621,12 @@ $('.startBtn').click(function(){
                 launchDiamond();
                 setTimeout(function(){
                     launchMissiles();
+                }, 15000);
+                setTimeout(function(){
+                    boss.launch(1000, 175);
+                    clearInterval(trooperLaunching);
                 }, 30000);
+
             },500);
         });
 
@@ -661,7 +739,7 @@ var heartLaunching;
 function launchHeart(){
     heartLaunching = setInterval(function(){
 
-        var randLaunch = Math.floor(Math.random()*5);
+        var randLaunch = Math.floor(Math.random()*3);
         var randPosY = (Math.floor(Math.random()*500))+50;
 
         if(randLaunch === 0){
@@ -691,7 +769,7 @@ var diamondLaunching;
 function launchDiamond(){
     diamondLaunching = setInterval(function(){
 
-        var randLaunch = Math.floor(Math.random()*5);
+        var randLaunch = Math.floor(Math.random()*3);
         var randPosY = (Math.floor(Math.random()*500))+50;
 
         if(randLaunch === 0){
