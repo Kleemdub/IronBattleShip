@@ -7,6 +7,9 @@
 
 function initGame(){
 
+    myShip.ship.show();
+    // boss.element.hide();
+
     bg1X = 0;
     bg2X = 0;
     score = 0;
@@ -89,6 +92,8 @@ $('.startBtn').click(function(){
     
     $('body').off();
 
+    score = 0;
+
     shotPosition = setInterval(function(){
         $('.armed').css({'top':myShip.posY+(myShip.height/2) - superPower, 'left':myShip.posX+(myShip.width)});
         $('.shot-init').css({'top':boss.posY + 125, 'left':boss.posX -60});
@@ -112,12 +117,12 @@ $('.startBtn').click(function(){
                 startMissile = setTimeout(function(){
                     launchMissiles();
                     clearInterval(trooperLaunching);
-                }, 25000);
+                }, 30000);
 
                 startBoss = setTimeout(function(){
                     boss.launch(1000, 175);
                     clearInterval(missileLaunching);
-                }, 50000);
+                }, 60000);
                 // 2000
             },500);
         });

@@ -55,7 +55,7 @@ Trooper.prototype.launch = function(x, y){
         }
     }, 60);
 
-    var randPath = Math.floor(Math.random()*10);
+    var randPath = Math.floor(Math.random()*11);
 
     setTimeout(function(){
         clearInterval(thisTrooperLaunch);
@@ -68,6 +68,13 @@ Trooper.prototype.launch = function(x, y){
         trooperSection[currentTrooper].posY = -70;
         trooperSection[currentTrooper].health = 20;
     });
+
+    // thisTrooper.animate({path : new $.path.bezier(trooper_path[10])}, 3000, function(){
+    //     thisTrooper.css({'left': 1000, 'top': -70, 'background-position-y':0, 'background-position-x':0}).hide();
+    //     trooperSection[currentTrooper].posX = 1000;
+    //     trooperSection[currentTrooper].posY = -70;
+    //     trooperSection[currentTrooper].health = 20;
+    // });
 };
 
 

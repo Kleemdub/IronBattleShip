@@ -208,6 +208,8 @@ function gameWin(){
 
     $('body').off();
 
+    $('.winner p').html('<span class="gris">YOUR SCORE : </span>' + score + 'PTS');
+
     $('.winner').animate({'opacity':1}, 400, function(){
         $('.container').css({'background-color':'rgb(255, 255, 255, 1)'});
         $('.winner h2').animate({'top':'100px'}, 400);
@@ -219,6 +221,6 @@ function gameWin(){
         startEvent();
         initGame();
         $('.startLayer').animate({'top':0}, 300);
-    }, 5000);
+    }, 7000);
 }
 

@@ -153,5 +153,20 @@ var trooper_path = [
         angle: 355.234,
         length: 0.349
         }
+    },
+
+    {
+    start: {
+        x: 1000,
+        y: 237,
+        angle: 56.666,
+        length: 0.837
+        },
+    end: {
+        x: -70,
+        y: 588,
+        angle: 6.990,
+        length: 0.522
+        }
     }
 ];

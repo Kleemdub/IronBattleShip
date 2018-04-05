@@ -151,7 +151,21 @@ function shotCollision (oneShot) {
             if(boss.receiveDamage(oneShot) <= 0){
                 increaseScore(200);
                 // console.log('YOU WIN!!!');
-                gameWin();
+
+                bossExplosion(40, 50);
+                bossExplosion(100, 70);
+                bossExplosion(30, 30);
+                bossExplosion(120, 10);
+                bossExplosion(50, 20);
+                bossExplosion(80, 60);
+
+                boss.element.hide();
+
+                setTimeout(function(){
+                    gameWin();
+                }, 1500);
+
+                
             }
         }
     }
@@ -162,6 +176,40 @@ function shotCollision (oneShot) {
 
 // EXPLOSIONS ////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
+
+function shipExplosion(index1, index2){
+    var explosion = '<div index="' + index1 + '" class="explosion"></div>';
+    $('.explosionsLayer').append(explosion);
+    explosion = $('.explosion[index='+ index1 +']');
+    explosion.css({'left':myShip.posX + index1, 'top':myShip.posY + index2});
+    var explosionBg = 0;
+    var explosionInterval = setInterval(function(){
+        explosion.css({'background-position-y':explosionBg});
+        explosionBg -= 140;
+        if(explosionBg <= -2380){
+            clearInterval(explosionInterval);
+            explosion.remove();
+        }
+    },60);
+}
+
+function bossExplosion(index1, index2){
+    var explosion = '<div index="' + index1 + '" class="explosion"></div>';
+    $('.explosionsLayer').append(explosion);
+    explosion = $('.explosion[index='+ index1 +']');
+    explosion.css({'left':boss.posX + index1, 'top':boss.posY + index2});
+    var explosionBg = 0;
+    var explosionInterval = setInterval(function(){
+        explosion.css({'background-position-y':explosionBg});
+        explosionBg -= 140;
+        if(explosionBg <= -2380){
+            clearInterval(explosionInterval);
+            explosion.remove();
+        }
+    },60);
+}
+
+
 
 function trooperExplosion(index){
     var explosion = '<div index="' + index + '" class="explosion"></div>';

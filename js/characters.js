@@ -105,7 +105,17 @@ Ship_obj.prototype.receiveDamage = function(enemy){
             $('.level').removeClass(previousLevel).addClass(currentLevel);
             // $('.level').removeClass('level4').addClass('level3');
             if(currentHealth <= 0){
-                gameOver();
+
+                shipExplosion(40, 50);
+                shipExplosion(50, 20);
+                shipExplosion(30, 30);
+
+                myShip.ship.hide();
+
+                setTimeout(function(){
+                    gameOver();
+                }, 1500);
+                
             }
         });
     }
