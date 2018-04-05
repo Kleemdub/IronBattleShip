@@ -8,110 +8,131 @@
     <link rel="stylesheet" href="./css/styles.css"/>
 </head>
 <body>
-    <div class="container">
-        <div class="bg1"></div>
-        <div class="bg2"></div>
+    <div class="container-global">
+        <div class="container">
+            <div class="bg1"></div>
+            <div class="bg2"></div>
 
-        <div class="gameSpace">
-            <div class="spaceship"></div>
+            <div class="gameSpace">
+                <div class="spaceship"></div>
 
-            <div index="0" class="shot armed"></div>
-            <div index="1" class="shot armed"></div>
-            <div index="2" class="shot armed"></div>
-            <div index="3" class="shot armed"></div>
-            <div index="4" class="shot armed"></div>
-            <div index="5" class="shot armed"></div>
+                <div index="0" class="shot armed"></div>
+                <div index="1" class="shot armed"></div>
+                <div index="2" class="shot armed"></div>
+                <div index="3" class="shot armed"></div>
+                <div index="4" class="shot armed"></div>
+                <div index="5" class="shot armed"></div>
 
-            <div index="0" class="enemy trooper"></div>
-            <div index="1" class="enemy trooper"></div>
-            <div index="2" class="enemy trooper"></div>
-            <div index="3" class="enemy trooper"></div>
-            <div index="4" class="enemy trooper"></div>
-            <div index="5" class="enemy trooper"></div>
+                <div index="0" class="enemy trooper"></div>
+                <div index="1" class="enemy trooper"></div>
+                <div index="2" class="enemy trooper"></div>
+                <div index="3" class="enemy trooper"></div>
+                <div index="4" class="enemy trooper"></div>
+                <div index="5" class="enemy trooper"></div>
+                <div index="6" class="enemy trooper"></div>
+                <div index="7" class="enemy trooper"></div>
+                <div index="8" class="enemy trooper"></div>
 
-            <div index="0" class="missile"></div>
-            <div index="1" class="missile"></div>
-            <div index="2" class="missile"></div>
+                <div index="0" class="missile"></div>
+                <div index="1" class="missile"></div>
+                <div index="2" class="missile"></div>
+                <div index="3" class="missile"></div>
+                <div index="4" class="missile"></div>
 
-            <div index="0" class="hexagon"></div>
-            <div index="1" class="hexagon"></div>
-            <div index="2" class="hexagon"></div>
-            <div index="3" class="hexagon"></div>
-            <div index="4" class="hexagon"></div>
-            <div index="5" class="hexagon"></div>
-            <div index="6" class="hexagon"></div>
-            <div index="7" class="hexagon"></div>
-            <div index="8" class="hexagon"></div>
-            <div index="9" class="hexagon"></div>
-            <div index="10" class="hexagon"></div>
-            <div index="11" class="hexagon"></div>
-            <div index="12" class="hexagon"></div>
-            <div index="13" class="hexagon"></div>
-            <div index="14" class="hexagon"></div>
-            <div index="15" class="hexagon"></div>
-            <div index="16" class="hexagon"></div>
-            <div index="17" class="hexagon"></div>
-            <div index="18" class="hexagon"></div>
-            <div index="19" class="hexagon"></div>
+                <div index="0" class="hexagon"></div>
+                <div index="1" class="hexagon"></div>
+                <div index="2" class="hexagon"></div>
+                <div index="3" class="hexagon"></div>
+                <div index="4" class="hexagon"></div>
+                <div index="5" class="hexagon"></div>
+                <div index="6" class="hexagon"></div>
+                <div index="7" class="hexagon"></div>
+                <div index="8" class="hexagon"></div>
+                <div index="9" class="hexagon"></div>
+                <div index="10" class="hexagon"></div>
+                <div index="11" class="hexagon"></div>
+                <div index="12" class="hexagon"></div>
+                <div index="13" class="hexagon"></div>
+                <div index="14" class="hexagon"></div>
+                <div index="15" class="hexagon"></div>
+                <div index="16" class="hexagon"></div>
+                <div index="17" class="hexagon"></div>
+                <div index="18" class="hexagon"></div>
+                <div index="19" class="hexagon"></div>
 
-            <div index="0" class="heart"></div>
-            <div index="1" class="heart"></div>
-            <div index="2" class="heart"></div>
+                <div index="0" class="heart"></div>
+                <div index="1" class="heart"></div>
+                <div index="2" class="heart"></div>
 
-            <div index="0" class="diamond"></div>
-            <div index="1" class="diamond"></div>
-            <div index="2" class="diamond"></div>
+                <div index="0" class="diamond"></div>
+                <div index="1" class="diamond"></div>
+                <div index="2" class="diamond"></div>
 
-            <div class="boss">
-                <div class="eye"></div>
+                <div class="boss">
+                    <div class="eye"></div>
+                </div>
+
+                <div class="boss-shot shot-init"></div>
             </div>
 
-            <div class="boss-shot shot-init"></div>
-        </div>
+            <div class="explosionsLayer"></div>
 
-        <div class="explosionsLayer"></div>
-
-        <div class="infosLayer">
-            <div class="infosBar">
-                <div class="healthBar">
-                    <div class="level level4"></div>
-                </div>
-                <div class="powerBar">
-                    <div class="powerLevel"></div>
-                </div>
-                <div class="score">0 PTS</div>
-                <div class="bossBar">
-                    <div class="bossLevel"></div>
-                </div>
-                <!-- <div class="score">0 PTS</div> -->
-            </div>
-        </div>
-
-        <div class="overlay">
-            <h2>GAME OVER</h2>
-        </div>
-
-        <div class="startLayer">
-            <h1>IRON BATTLE</h1>
-            <div class="btnContainer">
-                <div class="startBtn">START</div>
-                <div class="info-btn">
-                    <p>i</p>
+            <div class="infosLayer">
+                <div class="infosBar">
+                    <div class="healthBar">
+                        <div class="level level4"></div>
+                    </div>
+                    <div class="powerBar">
+                        <div class="powerLevel"></div>
+                    </div>
+                    <div class="score">0 PTS</div>
+                    <div class="bossBar">
+                        <div class="bossLevel"></div>
+                    </div>
+                    <!-- <div class="score">0 PTS</div> -->
                 </div>
             </div>
-            <div class="info-block">
-                <div class="info-close"><p>X</p></div>
+
+            <div class="overlay">
+                <h2>GAME OVER</h2>
+            </div>
+
+            <div class="winner">
+                <h2>YOU WIN</h2>
+            </div>
+
+            <div class="startLayer">
+                <h1>IRON BATTLE</h1>
+                <div class="btnContainer">
+                    <div class="startBtn"></div>
+                </div>
+                <div class="info-btn"></div>
+                <div class="info-block">
+                    <div class="info-close"></div>
+                </div>
             </div>
 
         </div>
-
     </div>
 
 
     <!-- chargement de jquery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="./js/jquery.path.js"></script>
-    <script src="./js/space.js"></script>
-    <script src="./js/battle.js"></script>
+    <!-- <script src="./js/space.js"></script>
+    <script src="./js/battle.js"></script> -->
+
+    <script src="./js/paths.js"></script>
+    <script src="./js/characters.js"></script>
+    <script src="./js/enemies.js"></script>
+    <script src="./js/items.js"></script>
+
+    <script src="./js/game-init.js"></script>
+    <script src="./js/game-functions.js"></script>
+    <script src="./js/interactions.js"></script>
+    
+    <script src="./js/game-start.js"></script>
+    
+    
 </body>
 </html>
