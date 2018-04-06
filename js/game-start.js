@@ -141,7 +141,7 @@ $('.startBtn').click(function(){
 /////////////////////////////////////////////////////////////////////////
 
 function startEvent(){
-    $('body').keydown(function() {
+    $('body').keydown(function(event) {
         switch(event.keyCode){
             case 13:
                 $('.startBtn').trigger('click');
