@@ -119,8 +119,6 @@ $('.startBtn').click(function(){
                 launchHeart();
                 launchDiamond();
 
-                // dub.currentTime = 0;
-
                 startMissile = setTimeout(function(){
                     launchMissiles();
                     clearInterval(trooperLaunching);

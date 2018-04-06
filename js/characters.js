@@ -165,7 +165,15 @@ Shots.prototype.fire = function(){
     var fireShot = setInterval(function(){
         if(shotPosX <= 1000){
             shotPosX += 10;
-            shotWidth += 5;
+
+            if(myShip.power >= 10){
+                shotWidth += 15;
+            }
+            else{
+                shotWidth += 5;
+            }
+
+            // shotWidth += 5;
             thisShot.css({'left':shotPosX, 'width':shotWidth});
             ammunitions[currentShot].posX = parseFloat(thisShot.css('left'));
             ammunitions[currentShot].posY = parseFloat(thisShot.css('top'));
@@ -173,13 +181,31 @@ Shots.prototype.fire = function(){
         }
         else{
             thisShot.css({'width':10}).addClass('armed').hide();
+            // ammunitions[currentShot].strenght = 10;
             clearInterval(fireShot);
+
+            if(myShip.power >= 10){
+                ammunitions[currentShot].strenght = 40;
+            }
+            else{
+                ammunitions[currentShot].strenght = 10;
+            }
         }
 
         if(shotCollision (ammunitions[currentShot])){
+            console.log(ammunitions[currentShot].strenght);
             // console.log("HIT!");
-            thisShot.css({'width':10}).addClass('armed').hide();
-            clearInterval(fireShot);
+            if(ammunitions[currentShot].strenght <= 0){
+                thisShot.css({'width':10}).addClass('armed').hide();
+                clearInterval(fireShot);
+
+                if(myShip.power >= 10){
+                    ammunitions[currentShot].strenght = 40;
+                }
+                else{
+                    ammunitions[currentShot].strenght = 10;
+                }
+            }
         }
     }, 5);
 

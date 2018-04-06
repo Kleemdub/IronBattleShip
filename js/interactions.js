@@ -99,6 +99,8 @@ function shotCollision (oneShot) {
                     thisTrooper.removeClass('damagedEnemy');
                 }, 100);
             }
+
+            oneShot.strenght -= oneTrooper.health;
         }
     });
 
@@ -132,12 +134,15 @@ function shotCollision (oneShot) {
                     thisMissile.removeClass('damagedEnemy');
                 }, 100);
             }
+
+            oneShot.strenght -= oneMissile.health;
         }
     });
 
     if (collision(oneShot, boss)) {
         hasCollided = true;
         sparklesBoss(oneShot);
+        oneShot.strenght = 0;
     }
     
     if (collisionEye(oneShot, boss)) {
@@ -152,12 +157,12 @@ function shotCollision (oneShot) {
                 $('.boss .eye').removeClass('damagedEye');
             }, 100);
 
-            $('.bossLevel').css({'width': boss.health/2 + '%'});
-            // console.log(boss.health);
+            // $('.bossLevel').css({'width': boss.health/2 + '%'});
+            console.log(boss.health);
             if(boss.receiveDamage(oneShot) <= 0){
                 increaseScore(200);
                 // console.log('YOU WIN!!!');
-                
+
                 dub.pause();
                 dub.currentTime = 0;
 
@@ -179,7 +184,11 @@ function shotCollision (oneShot) {
 
                 
             }
+
+            $('.bossLevel').css({'width': boss.health/2 + '%'});
         }
+
+        oneShot.strenght = 0;
     }
 
     return hasCollided;

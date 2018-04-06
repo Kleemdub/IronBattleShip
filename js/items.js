@@ -175,7 +175,7 @@ Diamond.prototype.launch = function(posY){
             $('.powerBar').show();
 
             ammunitions.forEach(function(oneShot){
-                oneShot.strenght = 50;
+                oneShot.strenght = 40;
             });
             superPower = 8;
             $('.shot').css({'width':'10px', 'height':'20px'});
