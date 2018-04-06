@@ -122,12 +122,12 @@ $('.startBtn').click(function(){
                 startMissile = setTimeout(function(){
                     launchMissiles();
                     clearInterval(trooperLaunching);
-                }, 10000);
+                }, 30000);
 
                 startBoss = setTimeout(function(){
                     boss.launch(1000, 175);
                     clearInterval(missileLaunching);
-                }, 20000);
+                }, 60000);
                 // 60000
             },500);
         });
