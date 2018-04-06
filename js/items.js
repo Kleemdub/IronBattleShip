@@ -29,6 +29,9 @@ Hexagon.prototype.launch = function(posY){
             clearInterval(thisHexagonLaunch);
             clearInterval(thisHexaBgAnim);
 
+            var coinAudio = document.getElementById('coin' + currentHexagon);
+            coinAudio.play();
+
             myShip.ship.addClass('energy');
             setTimeout(function(){
                 myShip.ship.removeClass('energy');
@@ -88,6 +91,9 @@ Heart.prototype.launch = function(posY){
             // console.log("HEART");
             clearInterval(thisHeartLaunch);
             clearInterval(thisHeartBgAnim);
+            
+            var heartAudio = document.getElementById('heart-sound');
+            heartAudio.play();
 
             myShip.ship.addClass('energy');
             setTimeout(function(){
@@ -152,6 +158,9 @@ Diamond.prototype.launch = function(posY){
         if(trooperCollision (diamonds[currentDiamond])){
             clearInterval(thisDiamondLaunch);
             clearInterval(thisDiamondBgAnim);
+
+            var diamondAudio = document.getElementById('power-sound');
+            diamondAudio.play();
 
             myShip.ship.addClass('energy');
             setTimeout(function(){

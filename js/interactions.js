@@ -77,6 +77,9 @@ function shotCollision (oneShot) {
                 var thisTrooper = $('.trooper[index='+ oneTrooper.idx +']');
                 thisTrooper.css({'bottom':2000});
                 
+                var enemyExplosionAudio = document.getElementById('explosion' + oneTrooper.idx);
+                enemyExplosionAudio.play();
+
                 thisTrooper.stop();
                 thisTrooper.css({'left': 1000, 'top': -70, 'background-position-y':0, 'background-position-x':0}).hide();
                 
@@ -110,6 +113,9 @@ function shotCollision (oneShot) {
 
                 thisMissile.css({'left': 750, 'top': -70, 'background-position-y':0, 'background-position-x':0}).hide();
                 
+                var enemyExplosionAudio = document.getElementById('explosion' + oneMissile.idx);
+                enemyExplosionAudio.play();
+
                 missileExplosion(oneMissile.idx);
 
                 oneMissile.posX = 750;
@@ -151,6 +157,12 @@ function shotCollision (oneShot) {
             if(boss.receiveDamage(oneShot) <= 0){
                 increaseScore(200);
                 // console.log('YOU WIN!!!');
+                
+                dub.pause();
+                dub.currentTime = 0;
+
+                var shipExplosionAudio = document.getElementById('ship-explosion');
+                shipExplosionAudio.play();
 
                 bossExplosion(40, 50);
                 bossExplosion(100, 70);

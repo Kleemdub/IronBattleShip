@@ -106,6 +106,12 @@ Ship_obj.prototype.receiveDamage = function(enemy){
             // $('.level').removeClass('level4').addClass('level3');
             if(currentHealth <= 0){
 
+                dub.pause();
+                dub.currentTime = 0;
+                
+                var shipExplosionAudio = document.getElementById('ship-explosion');
+                shipExplosionAudio.play();
+
                 shipExplosion(40, 50);
                 shipExplosion(50, 20);
                 shipExplosion(30, 30);
@@ -141,6 +147,9 @@ Shots.prototype.arm = function(){
 Shots.prototype.fire = function(){
     clearInterval(loadingShot);
     currentShot = shotIdx;
+
+    var laser = document.getElementById('laser' + currentShot);
+    laser.play();
 
     if(shotIdx < 5){
         shotIdx += 1;

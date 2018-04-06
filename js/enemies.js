@@ -34,6 +34,9 @@ Trooper.prototype.launch = function(x, y){
             clearInterval(thisTrooperLaunch);
             clearInterval(thisTrooperBgAnim);
 
+            var enemyExplosionAudio = document.getElementById('explosion' + currentTrooper);
+            enemyExplosionAudio.play();
+
             myShip.receiveDamage(trooperSection[currentTrooper]);
             myShip.ship.addClass('damaged');
             setTimeout(function(){
@@ -147,7 +150,10 @@ Missile.prototype.fire = function(index){
             if(trooperCollision (missileSection[index])){
                 // console.log("CRASH");
                 clearInterval(thisMissileFire);
-    
+                
+                var enemyExplosionAudio = document.getElementById('explosion' + index);
+                enemyExplosionAudio.play();
+
                 myShip.receiveDamage(missileSection[index]);
                 myShip.ship.addClass('damaged');
                 setTimeout(function(){
@@ -207,6 +213,10 @@ function Boss_shot(strenght, posX, posY){
 }
 
 Boss_shot.prototype.fire = function(){
+
+    var bossLaser = document.getElementById('boss-laser');
+    bossLaser.play();
+
     // console.log("BOSS FIRE");
     var shotMove = setInterval(function(){
         bossShot.posX = parseFloat($('.boss-shot').css('left'));

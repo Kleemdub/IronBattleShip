@@ -90,6 +90,11 @@ $('.startBtn').click(function(){
         $('.info-btn').trigger('click');
     }
     
+    // var dub = document.getElementById('tubby');
+    // dub.currentTime = 0;
+    dub.play();
+
+
     $('body').off();
 
     score = 0;
@@ -114,6 +119,8 @@ $('.startBtn').click(function(){
                 launchHeart();
                 launchDiamond();
 
+                // dub.currentTime = 0;
+
                 startMissile = setTimeout(function(){
                     launchMissiles();
                     clearInterval(trooperLaunching);
@@ -123,7 +130,7 @@ $('.startBtn').click(function(){
                     boss.launch(1000, 175);
                     clearInterval(missileLaunching);
                 }, 60000);
-                // 2000
+                // 60000
             },500);
         });
     });
