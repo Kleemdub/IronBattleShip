@@ -32,7 +32,7 @@ function scrolling(scrollSpeed){
 function keybordEvents(){
 
     // KEYDOWN ///////////////////////////////////////////////////////////////////
-    $('body').keydown(function() {
+    $('body').keydown(function(event) {
         switch(event.keyCode){
             case 32:
             ammunitions[shotIdx].arm();
@@ -88,7 +88,7 @@ function keybordEvents(){
     });
 
     // KEYUP /////////////////////////////////////////////////////////////////////
-    $('body').keyup(function() {
+    $('body').keyup(function(event) {
         switch(event.keyCode){
             case 32:
             ammunitions[shotIdx].fire();

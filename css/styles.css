@@ -48,7 +48,8 @@ body {
     background-image: url(../images/background.png);
     width:1000px;
     height:600px;
-    margin:30px auto;
+    /* margin:30px auto; */
+    margin:0px auto;
     position: relative;
     overflow: hidden;
     box-shadow: 0px 5px 20px #555;
